@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import DatePicker from './DatePicker'
 
 const styles = theme => ({
   root: {
@@ -13,26 +14,43 @@ const styles = theme => ({
   }
 })
 
-class NewComponent extends Component {
+class LeftToolBar extends Component {
   constructor (props) {
     super(props)
     this.state = {}
   }
 
   render () {
-    const { classes, showLeftToolBar } = this.props
+    const {
+      classes,
+      showLeftToolBar,
+      month,
+      onClickPrevious,
+      onClickNext,
+      onDateChange,
+      selectedDate,
+      onModeChange
+    } = this.props
     if (!showLeftToolBar) return null
     return (
       <div className={classes.root}>
-
+        <DatePicker
+          month={month}
+          selectedDate={selectedDate}
+          onClickPrevious={onClickPrevious}
+          onClickNext={onClickNext}
+          onDateChange={onDateChange}
+          onModeChange={onModeChange}
+        />
       </div>
     )
   }
 }
 
-NewComponent.propTypes = {
+LeftToolBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  showLeftToolBar: PropTypes.bool.isRequired
+  showLeftToolBar: PropTypes.bool.isRequired,
+  month: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(NewComponent)
+export default withStyles(styles)(LeftToolBar)

@@ -28,7 +28,7 @@ class Calendar extends Component {
     super(props)
     this.state = {
       month: normalizeMonth(moment()),
-      selectedDate: normalizeMonth(moment()),
+      selectedDate: normalizeDate(moment()),
       mode: 'month',
       showLeftToolBar: false
     }
@@ -94,6 +94,12 @@ class Calendar extends Component {
     }
   }
 
+  onDateChange = (e, date) => {
+    this.setState({
+      selectedDate: normalizeDate(date)
+    })
+  }
+
   render () {
     const { classes } = this.props
     const {
@@ -116,6 +122,12 @@ class Calendar extends Component {
         <div className={classes.viewContainer}>
           <LeftToolBar
             showLeftToolBar={showLeftToolBar}
+            month={month}
+            selectedDate={selectedDate}
+            onClickPrevious={this.onClickPrevious}
+            onClickNext={this.onClickNext}
+            onDateChange={this.onDateChange}
+            onModeChange={this.onModeChange}
           />
         </div>
       </div>
