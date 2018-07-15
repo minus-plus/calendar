@@ -4,11 +4,23 @@ import { withStyles } from '@material-ui/core/styles'
 import Toolbar from './Toolbar'
 import moment from 'moment'
 import { normalizeMonth, normalizeDate } from './utils/normalizer'
+import LeftToolBar from './LeftToolBar'
 
 const styles = theme => ({
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column'
+  root: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  viewContainer: {
+    flex: 1,
+    display: 'flex',
+    height: 'calc(100% - 64px)',
+    boxSizing: 'border-box',
+    borderWidth: '1px 0 0 0',
+    borderStyle: 'solid',
+    borderColor: theme.palette.grey[300]
+  },
 })
 
 class Calendar extends Component {
@@ -18,13 +30,13 @@ class Calendar extends Component {
       month: normalizeMonth(moment()),
       selectedDate: normalizeMonth(moment()),
       mode: 'month',
-      leftToolBarOpen: false
+      showLeftToolBar: false
     }
   }
 
   onToggleLeftToolBar = e => {
     this.setState({
-      leftToolBarOpen: !this.state.leftToolBarOpen
+      showLeftToolBar: !this.state.showLeftToolBar
     })
   }
 
@@ -84,7 +96,12 @@ class Calendar extends Component {
 
   render () {
     const { classes } = this.props
-    const { month, selectedDate, mode } = this.state
+    const {
+      month,
+      selectedDate,
+      mode,
+      showLeftToolBar
+    } = this.state
     return (
       <div className={classes.root}>
         <Toolbar
@@ -96,6 +113,11 @@ class Calendar extends Component {
           onModeChange={this.onModeChange}
           mode={mode}
         />
+        <div className={classes.viewContainer}>
+          <LeftToolBar
+            showLeftToolBar={showLeftToolBar}
+          />
+        </div>
       </div>
     )
   }
