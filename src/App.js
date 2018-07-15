@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Calendar from './lib/calendar'
+import { events } from './data/events'
 
 const styles = theme => ({
   view: {
@@ -9,13 +10,12 @@ const styles = theme => ({
   }
 })
 
-
 class App extends Component {
   render () {
     const { classes } = this.props
     return (
       <div className={classes.view}>
-        <Calendar />
+        <Calendar events={events} />
       </div>
     )
   }
