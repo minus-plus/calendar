@@ -16,9 +16,9 @@ const styles = theme => ({
     position: 'relative',
     padding: '0 19px 16px 19px',
     fontWeight: 500,
-    color: '#212121'
+    //color: '#212121'
   },
-  toolbar: {
+  toolBar: {
     height: 48,
     fontSize: 12,
     fontWeight: 500,
@@ -29,16 +29,15 @@ const styles = theme => ({
   toolBarItem: {
     fontWeight: 'inherit'
   },
-  toolbarDate: {
+  toolBarDate: {
     fontSize: 12,
     fontWeight: 500
   },
   iconButton: {
     width: 24,
     height: 24,
-    color: 'inherit'
   },
-  toolbarButton: {
+  toolBarButton: {
     marginRight: 6
   },
   icon: {
@@ -64,7 +63,9 @@ const styles = theme => ({
     display: 'table-cell',
     textAlign: 'center',
     verticalAlign: 'middle',
-    position: 'relative'
+    position: 'relative',
+    width: 28,
+    padding: 0
   },
   weekNumber: {
     color: theme.palette.text.secondary
@@ -156,15 +157,15 @@ class DatePicker extends Component {
   renderToolBar = () => {
     const { classes, month } = this.props
     return (
-      <div className={classes.toolbar}>
+      <div className={classes.toolBar}>
         <div className={classes.toolBarItem}>
-          <Typography variant='caption' className={classes.toolbarDate}>
+          <Typography variant='caption' className={classes.toolBarDate}>
             {moment(month).format('MMMM YYYY')}
           </Typography>
         </div>
         <div className={classes.toolBarItem}>
           <IconButton
-            className={cn(classes.iconButton, classes.toolbarButton)}
+            className={cn(classes.iconButton, classes.toolBarButton)}
             onClick={this.handlePreviousClick}
             aria-label='previous day'
           >
@@ -248,13 +249,22 @@ class DatePicker extends Component {
       classes,
       month
     } = this.props
-    const weeks = parseMonth(month)
+    const weeks = parseMonth(month, 6)
     return weeks.map((week, i) => (
       <div
         key={week.week()}
         className={classes.dateRow}
       >
-        <div className={cn(classes.dateCell, classes.weekNumber)}>{week.week()}</div>
+        <div
+          className={
+            cn(
+              classes.dateCell,
+              classes.weekNumber
+            )
+          }
+        >
+          {week.week()}
+        </div>
         {range(0, 7).map(i => this.renderDate(moment(week).day(i)))}
       </div>
     ))
