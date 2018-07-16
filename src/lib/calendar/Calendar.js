@@ -5,6 +5,7 @@ import Toolbar from './Toolbar'
 import moment from 'moment'
 import { normalizeMonth, normalizeDate } from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
+import Views from './Views'
 
 const styles = theme => ({
   root: {
@@ -17,9 +18,6 @@ const styles = theme => ({
     display: 'flex',
     height: 'calc(100% - 64px)',
     boxSizing: 'border-box',
-    borderWidth: '1px 0 0 0',
-    borderStyle: 'solid',
-    borderColor: theme.palette.grey[300]
   },
 })
 
@@ -30,9 +28,11 @@ class Calendar extends Component {
       month: normalizeMonth(moment()),
       selectedDate: normalizeDate(moment()),
       mode: 'month',
-      showLeftToolBar: false
+      showLeftToolBar: true
     }
   }
+
+  getView = () => Views[this.state.mode]
 
   onToggleLeftToolBar = e => {
     this.setState({
@@ -101,13 +101,16 @@ class Calendar extends Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, events = [] } = this.props
     const {
       month,
       selectedDate,
       mode,
       showLeftToolBar
     } = this.state
+
+    const View = this.getView()
+
     return (
       <div className={classes.root}>
         <Toolbar
@@ -128,6 +131,11 @@ class Calendar extends Component {
             onClickNext={this.onClickNext}
             onDateChange={this.onDateChange}
             onModeChange={this.onModeChange}
+          />
+          <View
+            month={month}
+            events={events}
+            selectedDate={selectedDate}
           />
         </div>
       </div>

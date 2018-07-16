@@ -8,3 +8,13 @@ export const weekDays = [
   'F',
   'S'
 ]
+
+export const weekDaysMonth = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat'
+]

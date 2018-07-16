@@ -7,7 +7,7 @@ const styles = theme => ({
   root: {
     width: 256,
     borderColor: theme.palette.grey[300],
-    borderWidth: '0 1px 0 1px',
+    borderWidth: '1px 1px 0 0',
     borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column'

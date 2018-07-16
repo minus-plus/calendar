@@ -245,9 +245,9 @@ class DatePicker extends Component {
 
   renderWeeks = () => {
     const {
-            classes,
-            month
-          } = this.props
+      classes,
+      month
+    } = this.props
     const weeks = parseMonth(month)
     return weeks.map((week, i) => (
       <div
@@ -262,9 +262,9 @@ class DatePicker extends Component {
 
   render () {
     const {
-            classes,
-            month
-          } = this.props
+      classes,
+      month
+    } = this.props
 
     return (
       <div className={classes.root}>
