@@ -10,7 +10,9 @@ const styles = theme => ({
     height: theme.spacing.unit * 3 + 'px',
     borderLeft: '1px solid transparent',
     cursor: 'pointer',
-    userSelect: 'none'
+    userSelect: 'none',
+    fontWeight: 500,
+    fontSize: 12,
   },
   eventPadding: {
     paddingRight: 3
@@ -26,8 +28,6 @@ const styles = theme => ({
     outline: 'none',
     background: theme.palette.secondary.main,
     color: '#ffffff',
-    fontWeight: 300,
-    fontSize: 14
   }
 })
 

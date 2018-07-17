@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { range } from 'lodash'
 import moment from 'moment'
 import MonthViewAllDayEvent from './MonthViewAllDayEvent'
+import MonthViewTimeEvent from './MonthViewTimeEvent'
 import { arrangeEventsInWeek } from './utils/scheduler'
 import { normalizeDate } from './utils/normalizer'
 
@@ -19,35 +20,6 @@ const styles = theme => ({
   eventCellWrapper: {
     flex: '1 1 0%',
     borderRight: '1px solid transparent'
-  },
-  eventWrapper: {
-    position: 'absolute',
-    height: theme.spacing.unit * 3 + 'px',
-    borderLeft: '1px solid transparent'
-  },
-  eventPadding: {
-    paddingRight: 3
-  },
-  event: {
-    height: theme.spacing.unit * 3 - 2,
-    lineHeight: theme.spacing.unit * 3 - 4 + 'px',
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    borderRadius: 2,
-    pointerEvents: 'auto',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    outline: 'none',
-    background: theme.palette.secondary.main,
-    color: '#ffffff',
-    fontWeight: 300,
-    fontSize: 14
-  },
-  collapsedEvent: {
-    background: '#ffffff',
-    color: theme.palette.text.secondary,
-    cursor: 'pointer'
   }
 })
 
@@ -59,7 +31,7 @@ const MonthViewEvent = ({ event, date }) => {
   return (
     isAllDayEvent
       ? <MonthViewAllDayEvent event={event} date={date}/>
-      : <MonthViewAllDayEvent event={event} date={date}/>
+      : <MonthViewTimeEvent event={event} date={date}/>
   )
 }
 
