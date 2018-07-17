@@ -24,7 +24,7 @@ const styles = theme => ({
     fontWeight: 500,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   toolBarItem: {
     fontWeight: 'inherit'
@@ -54,12 +54,18 @@ const styles = theme => ({
     tableLayout: 'fixed',
     width: '100%',
     fontSize: 10,
-    fontWeight: 500,
+    fontWeight: 500
   },
   dateRow: {
     display: 'table-row',
     height: 28,
-    color:  theme.palette.text.primary
+    color: theme.palette.text.primary
+  },
+  weekNumber: {
+    color: theme.palette.text.secondary
+  },
+  header: {
+    color: theme.palette.text.secondary
   },
   dateCell: {
     display: 'table-cell',
@@ -68,6 +74,7 @@ const styles = theme => ({
     position: 'relative',
     width: 28,
     padding: 0,
+    margin: 0
   },
   date: {
     fontSize: 10,
@@ -125,8 +132,8 @@ class DatePicker extends Component {
 
   renderHeader = () => {
     const { classes } = this.props
-    return <div className={classes.dateRow}>
-      <div className={cn(classes.dateCell, classes.header)}>
+    return <div className={cn(classes.dateRow, classes.header)}>
+      <div className={classes.dateCell}>
       </div>
       {
         weekDays.map((weekDay, i) => {
@@ -205,7 +212,6 @@ class DatePicker extends Component {
       <div
         key={date.week() + '_' + date.day()}
         className={classes.dateCell}
-
       >
         <IconButton
           className={cn(
@@ -213,8 +219,7 @@ class DatePicker extends Component {
             {
               [classes.selected]: selected,
               [classes.disabled]: disabled
-            },
-
+            }
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
@@ -222,7 +227,7 @@ class DatePicker extends Component {
         >
           <Typography
             className={cn(
-              classes.date,
+              classes.date
             )}
           >
             {date.date()}
