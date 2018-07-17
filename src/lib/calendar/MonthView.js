@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { withStyles } from '@material-ui/core/styles'
-import WeekNumbers from './MonthViewWeekNumbers'
+import MonthViewWeekNumbers from './MonthViewWeekNumbers'
 import Header from './MonthViewHeader'
 import { parseMonth } from './utils/formater'
-import DateRow from './MonthViewDateRow'
+import MonthViewDateRow from './MonthViewDateRow'
+import MonthViewEventRow from './MonthViewEventRow'
 import { normalizeDate } from './utils/normalizer'
+import { filterOutEventsOfWeek } from './utils/scheduler'
 
 const styles = theme => ({
   root: {
@@ -14,7 +16,7 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   view: {
     position: 'relative',
@@ -27,15 +29,16 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column'
+  },
+  dateRow: {
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    flex: '1 1 0%'
   }
 })
 
 class MonthView extends Component {
-
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     const {
       classes,
@@ -48,18 +51,25 @@ class MonthView extends Component {
 
     return (
       <div className={classes.root}>
-        <Header month={month} />
+        <Header month={month}/>
         <div className={classes.view}>
-          <WeekNumbers weeks={_weeks} showWeekNumber={true} />
+          <MonthViewWeekNumbers weeks={_weeks} showWeekNumber={true}/>
           <div className={classes.dateGrid}>
             {
               weeks.map((week, i) =>
-                <DateRow
+                <div
+                  className={classes.dateRow}
                   key={i}
-                  week={normalizeDate(week)}
-                  month={month}
-                  events={[]}
-                />)
+                >
+                  <MonthViewDateRow
+                    week={normalizeDate(week)}
+                    month={month}
+                  />
+                  <MonthViewEventRow
+                    week={normalizeDate(week)}
+                    events={filterOutEventsOfWeek(events, week)}
+                  />
+                </div>)
             }
           </div>
         </div>

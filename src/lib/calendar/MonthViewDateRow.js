@@ -3,16 +3,10 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 import { range } from 'lodash'
-import DateCell from './MonthViewDateCell'
+import MonthViewDateCell from './MonthViewDateCell'
 import { normalizeDate } from './utils/normalizer'
 
 const styles = theme => ({
-  root: {
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex',
-    flex: '1 1 0%'
-  },
   dateRow: {
     position: 'absolute',
     top: 0,
@@ -32,25 +26,21 @@ class DateRow extends Component {
   render () {
     const {
       classes,
-      events,
       week,
       month
     } = this.props
 
     const days = range(7).map(i => moment(week).day(i))
     return (
-      <div className={classes.root}>
-        <div className={classes.dateRow}>
-          {
-            days.map((day, i) =>
-              <DateCell
-                key={i}
-                date={normalizeDate(day)}
-                month={month}
-              />)
-          }
-        </div>
-
+      <div className={classes.dateRow}>
+        {
+          days.map((day, i) =>
+            <MonthViewDateCell
+              key={i}
+              date={normalizeDate(day)}
+              month={month}
+            />)
+        }
       </div>
     )
   }

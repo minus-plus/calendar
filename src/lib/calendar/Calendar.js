@@ -96,7 +96,8 @@ class Calendar extends Component {
 
   onDateChange = (e, date) => {
     this.setState({
-      selectedDate: normalizeDate(date)
+      selectedDate: normalizeDate(date),
+      month: normalizeMonth(date)
     })
   }
 

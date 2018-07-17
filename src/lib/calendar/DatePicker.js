@@ -16,7 +16,7 @@ const styles = theme => ({
     position: 'relative',
     padding: '0 19px 16px 19px',
     fontWeight: 500,
-    //color: '#212121'
+    color: theme.palette.text.secondary
   },
   toolBar: {
     height: 48,
@@ -24,7 +24,7 @@ const styles = theme => ({
     fontWeight: 500,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   toolBarItem: {
     fontWeight: 'inherit'
@@ -36,6 +36,7 @@ const styles = theme => ({
   iconButton: {
     width: 24,
     height: 24,
+    color: 'inherit'
   },
   toolBarButton: {
     marginRight: 6
@@ -53,11 +54,12 @@ const styles = theme => ({
     tableLayout: 'fixed',
     width: '100%',
     fontSize: 10,
-    fontWeight: 500
+    fontWeight: 500,
   },
   dateRow: {
     display: 'table-row',
-    height: 28
+    height: 28,
+    color:  theme.palette.text.primary
   },
   dateCell: {
     display: 'table-cell',
@@ -65,25 +67,12 @@ const styles = theme => ({
     verticalAlign: 'middle',
     position: 'relative',
     width: 28,
-    padding: 0
-  },
-  weekNumber: {
-    color: theme.palette.text.secondary
-  },
-  header: {
-    color: theme.palette.text.secondary
+    padding: 0,
   },
   date: {
     fontSize: 10,
     color: 'inherit',
     fontWeight: 500
-  },
-  active: {
-    background: theme.palette.secondary.main,
-    color: '#ffffff !important'
-  },
-  activeColor: {
-    color: '#FFFFFF'
   },
   disabled: {
     color: theme.palette.text.secondary
@@ -194,7 +183,6 @@ class DatePicker extends Component {
       return <div
         key={date.week() + '_' + date.day()}
         className={classes.dateCell}
-
       >
         <IconButton
           className={cn(
@@ -205,10 +193,7 @@ class DatePicker extends Component {
           onClick={this.handleDateClick(date)}
         >
           <Typography
-            className={cn(
-              classes.date,
-              classes.activeColor
-            )}
+            className={classes.date}
           >
             {date.date()}
           </Typography>
@@ -225,7 +210,11 @@ class DatePicker extends Component {
         <IconButton
           className={cn(
             classes.iconButton,
-            { [classes.selected]: selected }
+            {
+              [classes.selected]: selected,
+              [classes.disabled]: disabled
+            },
+
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
@@ -234,7 +223,6 @@ class DatePicker extends Component {
           <Typography
             className={cn(
               classes.date,
-              { [classes.disabled]: disabled }
             )}
           >
             {date.date()}
