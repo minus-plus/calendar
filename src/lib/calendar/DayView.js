@@ -199,6 +199,8 @@ class DayView extends Component {
       }
     })
 
+    console.log(events, allDayEvents, timeEvents)
+
     const date = moment(selectedDate)
 
     return (
