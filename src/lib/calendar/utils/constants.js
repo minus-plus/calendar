@@ -1,3 +1,4 @@
+import { range } from 'lodash'
 
 export const weekDays = [
   'S',
@@ -18,3 +19,14 @@ export const weekDaysMonth = [
   'Fri',
   'Sat'
 ]
+
+export const timeLabels = range(24).map(i => {
+  if (i) {
+    if (i % 12) {
+      return i % 12 + (~~(i / 12) ? 'pm' : 'am')
+    } else {
+      return 12 + 'pm'
+    }
+  }
+  return ''
+})

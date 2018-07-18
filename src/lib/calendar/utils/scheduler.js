@@ -95,10 +95,37 @@ export function arrangeEventsInWeek (events, week) {
  * @param week {object | string} date string or moment object
  * @returns {array} array of event object
  */
-export function filterOutEventsOfWeek(events, week) {
+export function filterOutEventsOfWeek (events, week) {
   return events.filter(e =>
     moment(week).isSameOrAfter(e.start, 'week') &&
       moment(week).isSameOrBefore(e.end, 'week'))
+}
+
+/**
+ *
+ * @param events {array} array of event object
+ * @param date {object} date string or moment object
+ * @param unit {string} date unit [ day|week|month|year ]
+ * @return {array} array of event object
+ */
+
+export function filterEvents (events, date, unit = 'day') {
+  const _date = moment(date)
+  return events.filter(e => {
+    return _date.isSameOrBefore(e.end, unit) &&
+      _date.isSameOrAfter(e.start, unit)
+  })
+}
+
+/**
+ *
+ * @param event {object} event object
+ * @returns {boolean}
+ */
+
+export function isAllDayEvent (event) {
+  return event.isAllDayEvent ||
+    !moment(event.start).isBefore(event.end, 'day')
 }
 
 /**
@@ -118,3 +145,6 @@ export function getPosition (element) {
 
   return { x: xPosition, y: yPosition }
 }
+
+
+

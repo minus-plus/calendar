@@ -19,6 +19,10 @@ const styles = theme => ({
     height: 'calc(100% - 64px)',
     boxSizing: 'border-box',
   },
+  viewWrapper: {
+    position: 'relative',
+    flex: '1 1 auto'
+  }
 })
 
 class Calendar extends Component {
@@ -133,11 +137,13 @@ class Calendar extends Component {
             onDateChange={this.onDateChange}
             onModeChange={this.onModeChange}
           />
-          <View
-            month={month}
-            events={events}
-            selectedDate={selectedDate}
-          />
+          <div className={classes.viewWrapper}>
+            <View
+              month={month}
+              events={events}
+              selectedDate={selectedDate}
+            />
+          </div>
         </div>
       </div>
     )

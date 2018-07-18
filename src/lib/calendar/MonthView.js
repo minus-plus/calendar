@@ -22,7 +22,6 @@ const styles = theme => ({
     position: 'relative',
     flex: 1,
     display: 'flex'
-
   },
   dateGrid: {
     overflow: 'hidden',
