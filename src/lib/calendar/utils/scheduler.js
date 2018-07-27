@@ -125,7 +125,32 @@ export function filterEvents (events, date, unit = 'day') {
 
 export function isAllDayEvent (event) {
   return event.isAllDayEvent ||
-    !moment(event.start).isBefore(event.end, 'day')
+    moment(event.start).isBefore(event.end, 'day')
+}
+
+/**
+ *
+ * @param a {object} event object
+ * @param b {object} event object
+ * @returns {number}
+ */
+const compareEventsByTime = (a, b) => {
+  const aStart = moment(a.start)
+  const bStart = moment(b.start)
+  const aDuration = Math.abs(aStart.diff(moment(a.end)))
+  const bDuration = Math.abs(bStart.diff(moment(b.end)))
+
+  if (aStart.isBefore(bStart)) {
+    return -1
+  } else if (aStart.isAfter(bStart)) {
+    return 1
+  } else {
+    return bDuration - aDuration
+  }
+}
+
+export function sortEvents (events) {
+  return events.sort(compareEventsByTime)
 }
 
 /**

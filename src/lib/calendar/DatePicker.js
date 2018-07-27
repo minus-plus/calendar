@@ -198,6 +198,7 @@ class DatePicker extends Component {
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
+          onDoubleClick={this.handleDateDoubleClick(date)}
         >
           <Typography
             className={classes.date}

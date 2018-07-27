@@ -6,6 +6,7 @@ import moment from 'moment'
 import { filterEvents, isAllDayEvent } from './utils/scheduler'
 import { timeLabels } from './utils/constants'
 import { range } from 'lodash'
+import DayViewAllDayEvents from './DayViewAllDayEvents'
 
 const styles = theme => ({
   root: {
@@ -189,6 +190,7 @@ class DayView extends Component {
       selectedDate
     } = this.props
     const events = filterEvents(_events, selectedDate, 'day')
+
     const allDayEvents = []
     const timeEvents = []
     events.map(e => {
@@ -198,8 +200,6 @@ class DayView extends Component {
         timeEvents.push(e)
       }
     })
-
-    console.log(events, allDayEvents, timeEvents)
 
     const date = moment(selectedDate)
 
@@ -223,6 +223,12 @@ class DayView extends Component {
                     {date.date()}
                   </div>
                 </div>
+              </div>
+              <div>
+                <DayViewAllDayEvents
+                  events={allDayEvents}
+                  selectedDate={selectedDate}
+                />
               </div>
             </div>
           </div>
