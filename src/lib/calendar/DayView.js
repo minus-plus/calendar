@@ -7,6 +7,7 @@ import { filterEvents, isAllDayEvent } from './utils/scheduler'
 import { timeLabels } from './utils/constants'
 import { range } from 'lodash'
 import DayViewAllDayEvents from './DayViewAllDayEvents'
+import DayViewTimeEvents from './DayViewTimeEvents'
 
 const styles = theme => ({
   root: {
@@ -249,6 +250,7 @@ class DayView extends Component {
               <div className={classes.viewEvents}>
                 {this.renderEventsGrid(timeEvents)}
               </div>
+              <DayViewTimeEvents events={timeEvents} />
             </div>
 
           </div>

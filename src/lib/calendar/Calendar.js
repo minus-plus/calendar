@@ -30,8 +30,8 @@ class Calendar extends Component {
     super(props)
     this.state = {
       month: normalizeMonth(moment()),
-      selectedDate: normalizeDate(moment()),
-      mode: 'month',
+      selectedDate: normalizeDate(moment('2018-08-13T10:30:00.000')),
+      mode: 'day',
       showLeftToolBar: true
     }
   }
