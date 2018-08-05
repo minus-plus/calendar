@@ -10,7 +10,7 @@ const styles = theme => ({
     cursor: 'pointer',
     userSelect: 'none',
     background: theme.palette.secondary.main,
-    border: '1px solid white',
+    border: '1px solid #FFFFFF',
     borderRadius: 3,
     zIndex: 4
   },
@@ -21,8 +21,7 @@ const styles = theme => ({
     padding: '4px 0 0 6px'
   },
   eventTitle: {
-    lineHeight: '15px',
-    marginBottom: 3
+    lineHeight: '15px'
   },
   eventTime: {
     lineHeight: '15px',

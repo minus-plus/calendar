@@ -5,7 +5,10 @@ import { withStyles } from '@material-ui/core/styles'
 
 import { range } from 'lodash'
 import DayViewTimeEvent from './DayViewTimeEvent'
-import { getTimeSlots, getStyledEvents } from './utils/scheduler'
+import {
+  getTimeSlots,
+  getStyledEvents
+} from './utils/timeEventScheduler'
 
 const styles = theme => ({
   dayEventsWrapper: {

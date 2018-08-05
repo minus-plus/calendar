@@ -7,7 +7,7 @@ import moment from 'moment'
  */
 export function normalizeMonth (date) {
   if (moment.isMoment(date) || moment.isDate(date) || moment(date).isValid()) {
-    return moment(date).startOf('month').format('MM/DD/YYYY')
+    return moment(date).startOf('month').format()
   }
   throw new Error('Invalid date format provided!')
 }
@@ -20,7 +20,7 @@ export function normalizeMonth (date) {
 
 export function normalizeDate (date) {
   if (moment.isMoment(date) || moment.isDate(date) || moment(date).isValid()) {
-    return moment(date).format('MM/DD/YYYY')
+    return moment(date).startOf('day').format()
   }
   throw new Error('Invalid date format provided!')
 }
