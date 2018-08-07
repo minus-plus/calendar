@@ -8,7 +8,7 @@ import DayViewTimeEvent from './DayViewTimeEvent'
 import {
   getTimeSlots,
   getStyledEvents
-} from './utils/timeEventScheduler'
+} from './utils/timeEventSchedulerV2'
 
 const styles = theme => ({
   dayEventsWrapper: {

@@ -48,6 +48,7 @@ class Event {
     this.weight = 1
     this.weighted = false
     this.zIndex = 0
+    this.pierced = null
 
     const {
       start,
@@ -124,7 +125,7 @@ function generateEventNodeTree (eventNodes) {
 // locate the highest ancestor of eventNode that overlaps with event
 function locateAncestor (eventNode, event) {
   let current = eventNode
-  let cursor = null
+  let candidates = []
   while (current) {
     const row = current.row
     const children = current.children
@@ -136,12 +137,14 @@ function locateAncestor (eventNode, event) {
         row && !isOverlapped(event, row) ||
         !row && !lastChild
       ) {
-        cursor = current
+        candidates.push(current)
       }
     }
     current = current.parent
   }
-  return cursor
+  const candidate = candidates.pop()
+  event.pierced = candidates.pop()
+  return candidate
 }
 
 function weightEventNode (eventNode) {
@@ -161,6 +164,10 @@ function weightEventNode (eventNode) {
   return eventNode
 }
 
+function getPierced (eventNode) {
+
+}
+
 
 function styleEvents (eventNodes) {
   for (let i = 0; i < eventNodes.length; i++) {
@@ -170,8 +177,11 @@ function styleEvents (eventNodes) {
     } else {
       e.left = e.parent.left + e.parent.width
     }
-    const rowDepth = e.weight - (e.children.length ? 1 : 0)
-    e.width = (1 - e.left) / rowDepth
+    let weight = e.weight - (e.children.length ? 1 : 0)
+    if (e.pierced) {
+      weight = Math.max(1 + e.pierced.weight, weight)
+    }
+    e.width = (1 - e.left) / weight
   }
 }
 
