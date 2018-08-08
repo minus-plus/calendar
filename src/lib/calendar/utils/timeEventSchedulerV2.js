@@ -56,6 +56,8 @@ class Event {
 
     this.parent = null
     this.groupParent = null
+    this.child = null // row child
+    this.groupChildren = []
     this.weight = 1
     this.zIndex = 4
     this.top = top
@@ -72,7 +74,7 @@ class Event {
  * @returns {boolean}
  */
 export function isOverlapped (a, b) {
-  return a.start < b.end
+  return !!a && !!b && a.start < b.end
 }
 
 /**
@@ -82,7 +84,7 @@ export function isOverlapped (a, b) {
  * @returns {boolean}
  */
 export function isOnSameRow (a, b) {
-  return a.start - b.start < 45
+  return !!a && !!b && a.start - b.start < 45
 }
 
 /**
@@ -118,14 +120,25 @@ function getRightNeighbor (grid, e) {
 }
 
 function weightEvent (event) {
+  let childWeight = 0
+  let groupWeight = 0
   if (event.child) {
-    return 1 + weightEvent(event.child)
+    childWeight = weightEvent(event.child)
+    if (event.groupChildren && event.groupChildren.length) {
+      groupWeight = event.groupChildren
+        .map(c => weightEvent(c))
+        .reduce((curr, w) => Math.max(curr, w), 0)
+    }
   }
-  return 1
+  return 1 + Math.max(childWeight, groupWeight)
 }
 
 function styleEvent (event) {
   if (event.parent) {
+    // make sure style parent first
+    if (!event.parent.styled) {
+      styleEvent(event.parent)
+    }
     event.left = event.parent.left + event.parent.width
     event.width = (1 - event.left) / event.weight
     event.zIndex = event.parent.zIndex + 1
@@ -137,6 +150,10 @@ function styleEvent (event) {
     event.left = 0
     event.width = 1 / event.weight
   }
+
+  // mark event as styled
+  event.styled = true
+  return event
 }
 
 function normalizeEvent (event) {
@@ -165,19 +182,29 @@ export function arrangeEvents (_events, timeSlotUnit = 15) {
   for (let i = 0; i < sortedEvents.length; i++) {
     const e = sortedEvents[i]
     const [start, end] = getRowIndex(e, 15)
-    //console.log(start, end)
+
     const c = locateColumnIndex(grid, start)
     e.cIndex = c
     e.rIndex = start
 
-    if (e.cIndex !== 0) {
-      const leftNeighbor = grid[e.rIndex][e.cIndex - 1]
-      if (isOnSameRow(e, leftNeighbor)) {
-        leftNeighbor.child = e
-        e.parent = leftNeighbor
-      } else {
-        // overlapped with left neighbor
-        e.child = getRightNeighbor(grid, e)
+    const leftNeighbor = e.cIndex && grid[e.rIndex][e.cIndex - 1]
+    const rightNeighbor = getRightNeighbor(grid, e)
+    if (rightNeighbor) {
+      e.child = rightNeighbor
+
+      // if rightNeighbor has no parent or its parent is after it
+      if (!rightNeighbor.parent ||
+        rightNeighbor.parent.start > rightNeighbor.start) {
+        rightNeighbor.parent = e
+      }
+    }
+
+    if (isOnSameRow(e, leftNeighbor)) {
+      leftNeighbor.child = e
+      e.parent = leftNeighbor
+    } else {
+      if (leftNeighbor) {
+        leftNeighbor.groupChildren.push(e)
         e.groupParent = leftNeighbor
       }
     }
@@ -187,11 +214,10 @@ export function arrangeEvents (_events, timeSlotUnit = 15) {
     }
   }
 
-  sortedEvents.map(e => {
+  return sortedEvents.map(e => {
     e.weight = weightEvent(e)
+    return e
   })
-
-  return sortedEvents
 }
 
 export function getStyledEvents (events, timeSlotUnit = 15) {
@@ -199,22 +225,9 @@ export function getStyledEvents (events, timeSlotUnit = 15) {
     return []
   }
   const weightedEvents = arrangeEvents(events, timeSlotUnit)
-
-  //let res = ''
-  //weightedEvents.map(e => {
-  //  res += 'id ' +  e.id +
-  //    "/ we " + e.weight +
-  //    "/ t " + e.top +
-  //    "/ h " + e.height +
-  //    '/ l '+  e.left +
-  //    '/ w ' + e.width + '\n'
-  //})
-  //console.log(res)
-  weightedEvents.map(e => {
-    styleEvent(e)
-  })
-
-  return weightedEvents.map(e => normalizeEvent(e))
+  return weightedEvents
+    .map(e => styleEvent(e))
+    .map(e => normalizeEvent(e))
 }
 
 

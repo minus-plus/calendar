@@ -1,30 +1,23 @@
 import { timeEvents } from '../../../data/events'
 import {
   getStyledEvents,
+  arrangeEvents,
   isOverlapped
 } from '../utils/timeEventSchedulerV2'
 
 function printEvent(e) {
-  //console.log(
-  //  '>>>>>>>>>>>>>>>',
-  //  '\nid:', e.id,
-  //  '\nparent:', e.parent && e.parent.id,
-  //  '\nrow:', e.row && e.row.id,
-  //  '\ngroups:', e.children.length,
-  //  '\nweight:', e.weight,
-  //  '\nweighted:', e.weighted,
-  //  '\nleft:', e.left,
-  //  '\nwidth:', e.width,
-  //  '\ntop:', e.top,
-  //  '\nheight:', e.height,
-  //  '\nzIndex:', e.zIndex,
-  //  '\n<<<<<<<<<<<<<<<<'
-  //)
+  const res = 'id ' +  e.id +
+    "/ we " + e.weight +
+    "/ t " + e.top +
+    "/ h " + e.height +
+    '/ l '+  e.left +
+    '/ w ' + e.width + '\n'
+  console.log(res)
 }
 
 
 describe('event scheduler', () => {
-  let arrangedEvents = getStyledEvents(timeEvents)
+  let arrangedEvents = arrangeEvents(timeEvents)
   arrangedEvents.map(e => {
     printEvent(e)
   })
