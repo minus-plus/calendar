@@ -59,6 +59,7 @@ class DayViewTimeEvents extends Component {
               key={i}
               event={event.event}
               style={event.style}
+              cIndex={event.cIndex}
             />
           )
         }

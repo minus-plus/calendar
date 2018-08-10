@@ -6,15 +6,15 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-import lightGreen from '@material-ui/core/colors/lightGreen'
+import blueGrey from '@material-ui/core/colors/blueGrey'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 
 const theme = createMuiTheme({
   palette: {
     secondary: {
-      light: lightGreen[500],
-      main: lightGreen[800],
-      dark: lightGreen[900]
+      light: blueGrey[500],
+      main: blueGrey[700],
+      dark: blueGrey[900]
     },
     primary: {
       light: lightBlue[400],

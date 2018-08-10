@@ -165,6 +165,7 @@ function normalizeEvent (event) {
   style.zIndex = event.zIndex
   return {
     event: event.event,
+    cIndex: event.cIndex,
     style: style
   }
 }
