@@ -5,6 +5,11 @@ import DayView from './DayView'
 import { range } from 'lodash'
 import moment from 'moment'
 import { normalizeDate } from './utils/normalizer'
+import { filterEvents, filterEventsByRange } from './utils/scheduler'
+import WeekViewHeader from './WeekViewHeader'
+import DayViewTimeLabels from './DayViewTimeLabels'
+import WeekViewEvents from './WeekViewEvents'
+
 
 
 const styles = theme => ({
@@ -18,13 +23,29 @@ const styles = theme => ({
     outline: 'none',
     borderWidth: '1px 0 0 0',
     borderStyle: 'solid',
-    borderColor: theme.palette.grey[300],
-    display: 'flex',
+    borderColor: theme.palette.grey[300]
   },
-  dayViewWrapper: {
+  container: {
+    height: '100%',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative'
+  },
+  view: {
     position: 'relative',
-    width: '10%',
-    flex: 1
+    flex: 1,
+    display: 'flex',
+    overflow: 'hidden',
+    overflowY: 'scroll',
+    borderWidth: '1px 0 1px 1px',
+    borderColor: theme.palette.grey[300],
+    borderStyle: 'solid'
+  },
+  headerWrapper: {
+    position: 'relative',
+    display: 'flex',
+    overflowY: 'scroll'
   }
 })
 
@@ -34,13 +55,6 @@ class WeekView extends Component {
     this.state = {}
   }
 
-  renderWeekDay (weekday) {
-    const _weekday = normalizeDate(weekday)
-    const { classes, events } = this.props
-    return <div key={_weekday} className={classes.dayViewWrapper} >
-      <DayView selectedDate={_weekday} events={events} />
-    </div>
-  }
 
   render () {
     const {
@@ -49,9 +63,29 @@ class WeekView extends Component {
       events,
       selectedDate
       } = this.props
+    const week = moment(selectedDate).startOf('week')
+    const filteredEvents = filterEventsByRange(
+      events,
+      week,
+      moment(week).add(6, 'day')
+    )
     return (
       <div className={classes.root}>
-        {range(3).map(i => this.renderWeekDay(selectedDate))}
+        <div className={classes.container}>
+          <div className={classes.headerWrapper}>
+            <WeekViewHeader
+              events={filteredEvents}
+              selectedDate={selectedDate}
+            />
+          </div>
+          <div className={classes.view}>
+            <DayViewTimeLabels />
+            <WeekViewEvents
+              events={filteredEvents}
+              selectedDate={selectedDate}
+            />
+          </div>
+        </div>
       </div>
     )
   }

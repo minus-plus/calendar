@@ -13,7 +13,7 @@ const styles = theme => ({
   viewTimeBar: {
     position: 'relative',
     overflowY: 'hidden',
-    borderWidth: '0 1px 0 0',
+    borderWidth: '0 0 0 0',
     borderColor: theme.palette.grey[300],
     borderStyle: 'solid'
   },

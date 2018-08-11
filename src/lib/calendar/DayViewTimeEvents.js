@@ -17,7 +17,7 @@ const styles = theme => ({
     display: 'inline-flex',
     alignItems: 'flex-start',
     flex: '1 1 auto',
-    height: 'auto'
+    height: 'auto',
   },
   dayEventsWrapper: {
     position: 'relative',
@@ -25,7 +25,10 @@ const styles = theme => ({
     flexDirection: 'column',
     width: 'calc(100% - 12px)',
     flex: 'none',
-    verticalAlign: 'top'
+    verticalAlign: 'top',
+    borderWidth: '0 0 0 1px',
+    borderStyle: 'solid',
+    borderColor: theme.palette.grey[300]
   },
   timeSlots: {
     height: 12

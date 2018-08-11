@@ -61,18 +61,28 @@ class Calendar extends Component {
   onClickPrevious = (e, mode = 'month') => {
     const { month, selectedDate } = this.state
     switch (mode) {
-      case 'day':
+      case 'day': {
         const newDate = moment(selectedDate).add(-1, 'day')
         this.setState({
           selectedDate: normalizeDate(newDate),
           month: normalizeMonth(newDate)
         })
         break
-      case 'month':
+      }
+      case 'week': {
+        const newDate = moment(selectedDate).add(-1, 'week')
+        this.setState({
+          selectedDate: normalizeDate(newDate),
+          month: normalizeMonth(newDate)
+        })
+        break
+      }
+      case 'month': {
         this.setState({
           month: normalizeMonth(moment(month).add(-1, 'month'))
         })
         break
+      }
       default:
         return
     }
@@ -81,18 +91,28 @@ class Calendar extends Component {
   onClickNext = (e, mode = 'month') => {
     const { month, selectedDate } = this.state
     switch (mode) {
-      case 'day':
+      case 'day': {
         const newDate = moment(selectedDate).add(1, 'day')
         this.setState({
           selectedDate: normalizeDate(newDate),
           month: normalizeMonth(newDate)
         })
         break
-      case 'month':
+      }
+      case 'week': {
+        const newDate = moment(selectedDate).add(1, 'week')
+        this.setState({
+          selectedDate: normalizeDate(newDate),
+          month: normalizeMonth(newDate)
+        })
+        break
+      }
+      case 'month': {
         this.setState({
           month: normalizeMonth(moment(month).add(1, 'month'))
         })
         break
+      }
       default:
         return
     }

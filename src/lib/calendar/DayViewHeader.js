@@ -9,8 +9,7 @@ import { isAllDayEvent } from './utils/scheduler'
 const styles = theme => ({
   header: {
     display: 'flex',
-    flex: 'none',
-    overflowY: 'scroll'
+    flex: 1,
   },
   headerLeftPadding: {
     display: 'flex',
@@ -66,14 +65,16 @@ class NewComponent extends Component {
   }
 
   render () {
-    const { classes, selectedDate, events } = this.props
+    const { classes, selectedDate, events, paddingLeft } = this.props
     const date = moment(selectedDate)
 
     const allDayEvents = events.filter(isAllDayEvent)
     return (
       <div className={classes.header}>
-        <div className={classes.headerLeftPadding}>
-        </div>
+        {paddingLeft &&
+          <div className={classes.headerLeftPadding}>
+          </div>
+        }
         <div className={classes.headerContent}>
           <div className={classes.headerDateWrapper}>
             <div className={classes.headerDate}>
@@ -103,7 +104,8 @@ class NewComponent extends Component {
 
 NewComponent.propTypes = {
   classes: PropTypes.object.isRequired,
-  selectedDate: PropTypes.string.isRequired
+  selectedDate: PropTypes.string.isRequired,
+  paddingLeft: PropTypes.bool
 }
 
 export default withStyles(styles)(NewComponent)

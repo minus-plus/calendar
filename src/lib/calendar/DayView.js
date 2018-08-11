@@ -24,6 +24,11 @@ const styles = theme => ({
     borderStyle: 'solid',
     borderColor: theme.palette.grey[300]
   },
+  headerWrapper: {
+    //display: 'flex',
+    //flex: 1,
+    overflowY: 'scroll'
+  },
   container: {
     height: '100%',
     overflow: 'hidden',
@@ -133,9 +138,12 @@ class DayView extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.container}>
-          <DayViewHeader
-            selectedDate={selectedDate}
-            events={events} />
+          <div className={classes.headerWrapper}>
+            <DayViewHeader
+              selectedDate={selectedDate}
+              paddingLeft
+              events={events} />
+          </div>
           <div className={classes.view}>
             <DayViewTimeLabels />
             <DayViewTimeEvents events={events} />

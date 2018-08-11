@@ -116,6 +116,16 @@ export function filterEvents (events, date, unit = 'day') {
   })
 }
 
+export function filterEventsByRange (events, startDate, endDate) {
+  const start = moment(startDate)
+  const end = moment(endDate)
+  return events.filter(e => {
+    return start.isSameOrBefore(e.end, 'day') &&
+      end.isSameOrAfter(e.start, 'day')
+  })
+
+}
+
 /**
  *
  * @param event {object} event object
