@@ -31,7 +31,7 @@ class Calendar extends Component {
     this.state = {
       month: normalizeMonth(moment()),
       selectedDate: normalizeDate(moment('2018-08-13T10:30:00.000')),
-      mode: 'day',
+      mode: 'week',
       showLeftToolBar: true
     }
   }

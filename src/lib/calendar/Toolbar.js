@@ -52,7 +52,8 @@ const styles = theme => ({
 
 const options = [
   'day',
-  'month'
+  'month',
+  'week'
 ]
 
 class Toolbar extends Component {

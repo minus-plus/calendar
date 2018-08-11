@@ -127,6 +127,10 @@ export function isAllDayEvent (event) {
     moment(event.start).isBefore(event.end, 'day')
 }
 
+export function isTimeEvent (event) {
+  return event && !isAllDayEvent(event)
+}
+
 /**
  *
  * @param a {object} event object
