@@ -5,7 +5,7 @@ import { range } from 'lodash'
 import moment from 'moment'
 import DayViewTimeEvents from './DayViewTimeEvents'
 import { normalizeDate } from './utils/normalizer'
-import { filterEvents, isTimeEvent } from './utils/scheduler'
+import { filterEvents } from './utils/scheduler'
 
 
 const styles = theme => ({
@@ -27,9 +27,9 @@ class WeekViewEvents extends Component {
     this.state = {}
   }
 
-  renderTimeEvents (index, selectedDate, _events) {
+  renderTimeEvents (index, date, _events) {
     const { classes } = this.props
-    const events = filterEvents(_events, selectedDate, 'day')
+    const events = filterEvents(_events, date, 'day')
     return (
       <div key={index} className={classes.timeEventsWrapper}>
         <DayViewTimeEvents events={events} />
@@ -38,8 +38,7 @@ class WeekViewEvents extends Component {
   }
 
   render () {
-    const { classes, selectedDate, events } = this.props
-    const week = moment(selectedDate).startOf('week')
+    const { classes, week, events } = this.props
     const weekDays = range(7).map(i => normalizeDate(moment(week).add(i, 'day')))
 
     return (

@@ -55,34 +55,41 @@ class WeekView extends Component {
     this.state = {}
   }
 
+  shouldComponentUpdate (nextProps) {
+    if (this.props.week === nextProps.week &&
+        this.props.events === nextProps.events) {
+      return false
+    }
+    return true
+  }
+
 
   render () {
     const {
       classes,
-      month,
       events,
-      selectedDate
+      week,
       } = this.props
-    const week = moment(selectedDate).startOf('week')
     const filteredEvents = filterEventsByRange(
       events,
       week,
       moment(week).add(6, 'day')
     )
+
     return (
       <div className={classes.root}>
         <div className={classes.container}>
           <div className={classes.headerWrapper}>
             <WeekViewHeader
               events={filteredEvents}
-              selectedDate={selectedDate}
+              week={week}
             />
           </div>
           <div className={classes.view}>
             <DayViewTimeLabels />
             <WeekViewEvents
               events={filteredEvents}
-              selectedDate={selectedDate}
+              week={week}
             />
           </div>
         </div>

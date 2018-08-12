@@ -27,8 +27,7 @@ class WeekViewHeader extends Component {
   }
 
   render () {
-    const { classes, selectedDate, events } = this.props
-    const week = moment(selectedDate).startOf('week')
+    const { classes, week, events } = this.props
     const weekDays = range(7).map(i => normalizeDate(moment(week).add(i, 'day')))
     return (
       <div className={classes.root}>
@@ -50,7 +49,7 @@ class WeekViewHeader extends Component {
 
 WeekViewHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  selectedDate: PropTypes.string.isRequired,
+  week: PropTypes.string.isRequired,
   events: PropTypes.array
 }
 

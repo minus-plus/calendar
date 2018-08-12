@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Toolbar from './Toolbar'
 import moment from 'moment'
-import { normalizeMonth, normalizeDate } from './utils/normalizer'
+import {
+  normalizeMonth,
+  normalizeWeek,
+  normalizeDate
+} from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
 import Views from './Views'
 import { isSame } from './utils/scheduler'
@@ -31,7 +35,8 @@ class Calendar extends Component {
     super(props)
     this.state = {
       month: normalizeMonth(moment()),
-      selectedDate: normalizeDate(moment('2018-08-13T10:30:00.000')),
+      week: normalizeWeek('2018-08-13T10:30:00.000'),
+      selectedDate: normalizeDate('2018-08-13T10:30:00.000'),
       mode: 'week',
       showLeftToolBar: true
     }
@@ -66,6 +71,7 @@ class Calendar extends Component {
         const newDate = moment(selectedDate).add(-1, 'day')
         this.setState({
           selectedDate: normalizeDate(newDate),
+          week: normalizeWeek(newDate),
           month: normalizeMonth(newDate)
         })
         break
@@ -74,6 +80,7 @@ class Calendar extends Component {
         const newDate = moment(selectedDate).add(-1, 'week')
         this.setState({
           selectedDate: normalizeDate(newDate),
+          week: normalizeWeek(newDate),
           month: normalizeMonth(newDate)
         })
         break
@@ -96,6 +103,7 @@ class Calendar extends Component {
         const newDate = moment(selectedDate).add(1, 'day')
         this.setState({
           selectedDate: normalizeDate(newDate),
+          week: normalizeWeek(newDate),
           month: normalizeMonth(newDate)
         })
         break
@@ -104,6 +112,7 @@ class Calendar extends Component {
         const newDate = moment(selectedDate).add(1, 'week')
         this.setState({
           selectedDate: normalizeDate(newDate),
+          week: normalizeWeek(newDate),
           month: normalizeMonth(newDate)
         })
         break
@@ -125,6 +134,7 @@ class Calendar extends Component {
     }
     this.setState({
       selectedDate: normalizeDate(date),
+      week: normalizeWeek(date),
       month: normalizeMonth(date)
     })
   }
@@ -133,6 +143,7 @@ class Calendar extends Component {
     const { classes, events = [] } = this.props
     const {
       month,
+      week,
       selectedDate,
       mode,
       showLeftToolBar
@@ -166,6 +177,7 @@ class Calendar extends Component {
               month={month}
               events={events}
               selectedDate={selectedDate}
+              week={week}
             />
           </div>
         </div>

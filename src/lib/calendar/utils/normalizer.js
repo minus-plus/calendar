@@ -12,6 +12,13 @@ export function normalizeMonth (date) {
   throw new Error('Invalid date format provided!')
 }
 
+export function normalizeWeek (date) {
+  if (moment.isMoment(date) || moment.isDate(date) || moment(date).isValid()) {
+    return moment(date).startOf('week').format()
+  }
+  throw new Error('Invalid date format provided!')
+}
+
 /**
  *
  * @param date {string | object} string or moment object
