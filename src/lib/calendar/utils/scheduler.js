@@ -3,6 +3,16 @@ import { range } from 'lodash'
 
 /**
  *
+ * @param d1 {object} moment object
+ * @param d2 {object} moment object
+ * @param unit {string} date unit [ day|week|month|year ]
+ * @returns {boolean}
+ */
+export function isSame(d1, d2, unit) {
+  return moment(d1).isSame(d2, unit)
+}
+/**
+ *
  * @param week {object} moment object
  * @returns {array} array of moment object
  */

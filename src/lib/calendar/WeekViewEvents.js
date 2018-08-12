@@ -27,11 +27,11 @@ class WeekViewEvents extends Component {
     this.state = {}
   }
 
-  renderTimeEvents (selectedDate, _events) {
+  renderTimeEvents (index, selectedDate, _events) {
     const { classes } = this.props
     const events = filterEvents(_events, selectedDate, 'day')
     return (
-      <div className={classes.timeEventsWrapper}>
+      <div key={index} className={classes.timeEventsWrapper}>
         <DayViewTimeEvents events={events} />
       </div>
     )
@@ -46,7 +46,7 @@ class WeekViewEvents extends Component {
       <div className={classes.root}>
         {
           weekDays.map((date, index) =>
-            this.renderTimeEvents(date, events)
+            this.renderTimeEvents(index, date, events)
           )
         }
       </div>

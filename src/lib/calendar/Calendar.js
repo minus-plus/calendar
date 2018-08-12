@@ -6,6 +6,7 @@ import moment from 'moment'
 import { normalizeMonth, normalizeDate } from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
 import Views from './Views'
+import { isSame } from './utils/scheduler'
 
 const styles = theme => ({
   root: {
@@ -119,6 +120,9 @@ class Calendar extends Component {
   }
 
   onDateChange = (e, date) => {
+    if (isSame(this.state.selectedDate, date, 'day')) {
+      return
+    }
     this.setState({
       selectedDate: normalizeDate(date),
       month: normalizeMonth(date)
