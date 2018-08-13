@@ -6,9 +6,9 @@ import { range } from 'lodash'
 import moment from 'moment'
 import { normalizeDate } from './utils/normalizer'
 import { filterEvents, filterEventsByRange } from './utils/scheduler'
-import WeekViewHeader from './WeekViewHeader'
+import WeekViewHeader from './MultiDaysViewHeader'
 import DayViewTimeLabels from './DayViewTimeLabels'
-import WeekViewEvents from './WeekViewEvents'
+import MultiDaysViewEvents from './MultiDaysViewEvents'
 
 
 
@@ -49,7 +49,7 @@ const styles = theme => ({
   }
 })
 
-class WeekView extends Component {
+class MultiDaysView extends Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -87,7 +87,7 @@ class WeekView extends Component {
           </div>
           <div className={classes.view}>
             <DayViewTimeLabels />
-            <WeekViewEvents
+            <MultiDaysViewEvents
               events={filteredEvents}
               week={week}
             />
@@ -98,8 +98,9 @@ class WeekView extends Component {
   }
 }
 
-WeekView.propTypes = {
-  classes: PropTypes.object.isRequired
+MultiDaysView.propTypes = {
+  classes: PropTypes.object.isRequired,
+  events: PropTypes.object
 }
 
-export default withStyles(styles)(WeekView)
+export default withStyles(styles)(MultiDaysView)

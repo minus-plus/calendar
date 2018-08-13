@@ -178,6 +178,7 @@ class Calendar extends Component {
               events={events}
               selectedDate={selectedDate}
               week={week}
+              mode={mode}
             />
           </div>
         </div>

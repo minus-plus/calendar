@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 })
 
-class WeekViewEvents extends Component {
+class MultiDaysViewEvents extends Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -53,10 +53,10 @@ class WeekViewEvents extends Component {
   }
 }
 
-WeekViewEvents.propTypes = {
+MultiDaysViewEvents.propTypes = {
   classes: PropTypes.object.isRequired,
   events: PropTypes.array,
   selectedDate: PropTypes.string
 }
 
-export default withStyles(styles)(WeekViewEvents)
+export default withStyles(styles)(MultiDaysViewEvents)

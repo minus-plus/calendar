@@ -20,7 +20,7 @@ const styles = theme => ({
   },
 })
 
-class WeekViewHeader extends Component {
+class MultiDaysViewHeader extends Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -47,10 +47,10 @@ class WeekViewHeader extends Component {
   }
 }
 
-WeekViewHeader.propTypes = {
+MultiDaysViewHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   week: PropTypes.string.isRequired,
   events: PropTypes.array
 }
 
-export default withStyles(styles)(WeekViewHeader)
+export default withStyles(styles)(MultiDaysViewHeader)
