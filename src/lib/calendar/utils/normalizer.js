@@ -31,3 +31,11 @@ export function normalizeDate (date) {
   }
   throw new Error('Invalid date format provided!')
 }
+
+export function startOf (date, unit = 'day') {
+  return normalizeDate(moment(date).startOf(unit))
+}
+
+export function endOf (date, unit = 'day') {
+  return normalizeDate(moment(date).endOf(unit))
+}

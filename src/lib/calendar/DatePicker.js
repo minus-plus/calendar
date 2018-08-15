@@ -10,13 +10,26 @@ import { range } from 'lodash'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import {
+  isSame,
+  isBefore,
+  isAfter,
+  isInRange,
+  isInRangeX
+} from './utils/scheduler'
+import {
+  normalizeDate,
+  startOf,
+  endOf
+} from './utils/normalizer'
 
 const styles = theme => ({
   root: {
     position: 'relative',
     padding: '0 19px 16px 19px',
     fontWeight: 500,
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    userSelect: 'none'
   },
   toolBar: {
     height: 48,
@@ -74,7 +87,18 @@ const styles = theme => ({
     position: 'relative',
     width: 28,
     padding: 0,
-    margin: 0
+    margin: 0,
+    userSelect: 'none',
+    '&:before': {
+      position: 'absolute',
+      height: '24px',
+      left: '-50%',
+      right: '50%',
+      zIndex: -1,
+      content: '""',
+      backgroundColor: 'white',
+      transition: 'background-color 100ms linear'
+    }
   },
   date: {
     fontSize: 10,
@@ -96,13 +120,32 @@ const styles = theme => ({
       background: theme.palette.secondary.main,
       color: '#ffffff'
     }
+  },
+  inRange: {
+    '&:before': {
+      background: theme.palette.grey[300]
+    }
   }
 })
 
 class DatePicker extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      start: '',
+      end: '',
+      rangeStart: '',
+      rangeEnd: '',
+      down: false
+    }
+  }
+
+  componentDidMount () {
+    window.addEventListener('mouseup', this.handleMouseUpEvent, false)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('mouseup', this.handleMouseUpEvent, false)
   }
 
   handlePreviousClick = (e) => {
@@ -121,13 +164,62 @@ class DatePicker extends Component {
     if (this.props.onDateChange) {
       this.props.onDateChange(e, date)
     }
+    this.setState({
+      rangeStart: '',
+      rangeEnd: ''
+    })
   }
 
   handleDateDoubleClick = date => e => {
     if (this.props.onDateChange) {
       this.props.onDateChange(e, date)
-      this.props.onModeChange(e, 'day')
     }
+  }
+
+  handleMouseDown = date => e => {
+    e.preventDefault()
+    this.setState({
+      start: normalizeDate(date),
+      down: true
+    })
+  }
+
+  handleMouseEnter = date => e => {
+    e.preventDefault()
+    const { start, down } = this.state
+    let end = ''
+    let rangeStart = ''
+    let rangeEnd = ''
+
+    if (start && down) {
+      if (isAfter(date, start)) {
+        const sameWeek = isSame(date, start, 'week')
+        end = normalizeDate(date)
+        rangeStart = sameWeek ? start : startOf(start, 'week')
+        rangeEnd = sameWeek ? normalizeDate(date) : endOf(date, 'week')
+      } else if (isBefore(date, start)) {
+        const sameWeek = isSame(date, start, 'week')
+        end = normalizeDate(date)
+        rangeStart = sameWeek ? normalizeDate(date) : startOf(date, 'week')
+        rangeEnd = sameWeek ? start : endOf(start, 'week')
+      }
+
+      this.setState({
+        end,
+        rangeStart,
+        rangeEnd
+      })
+    }
+  }
+
+  handleMouseUpEvent = e => {
+    const { start, end } = this.state
+    if (start && end) {
+      console.debug('will set range')
+    }
+    this.setState({
+      down: false
+    })
   }
 
   renderHeader = () => {
@@ -182,14 +274,20 @@ class DatePicker extends Component {
 
   renderDate = date => {
     const { classes, month, selectedDate } = this.props
+    const { rangeStart, rangeEnd } = this.state
+    const inRangeX = isInRangeX(rangeStart, rangeEnd, date)
+    const inRange = isInRange(rangeStart, rangeEnd, date)
     const disabled = moment(month).month() !== date.month()
-    const selected = moment(date).isSame(selectedDate)
+    const selected = isSame(selectedDate, date, 'day') || inRange
     const isToday = date.isSame(moment(), 'day')
 
     if (isToday) {
       return <div
         key={date.week() + '_' + date.day()}
-        className={classes.dateCell}
+        className={cn(
+          classes.dateCell,
+          { [classes.inRange]: inRangeX }
+        )}
       >
         <IconButton
           className={cn(
@@ -199,6 +297,7 @@ class DatePicker extends Component {
           disableRipple
           onClick={this.handleDateClick(date)}
           onDoubleClick={this.handleDateDoubleClick(date)}
+          onMouseEnter={this.handleMouseEnter(date)}
         >
           <Typography
             className={classes.date}
@@ -212,7 +311,10 @@ class DatePicker extends Component {
     return (
       <div
         key={date.week() + '_' + date.day()}
-        className={classes.dateCell}
+        className={cn(
+          classes.dateCell,
+          { [classes.inRange]: inRangeX }
+        )}
       >
         <IconButton
           className={cn(
@@ -225,6 +327,8 @@ class DatePicker extends Component {
           disableRipple
           onClick={this.handleDateClick(date)}
           onDoubleClick={this.handleDateDoubleClick(date)}
+          onMouseDown={this.handleMouseDown(date)}
+          onMouseEnter={this.handleMouseEnter(date)}
         >
           <Typography
             className={cn(

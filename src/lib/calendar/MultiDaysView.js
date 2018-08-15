@@ -100,7 +100,7 @@ class MultiDaysView extends Component {
 
 MultiDaysView.propTypes = {
   classes: PropTypes.object.isRequired,
-  events: PropTypes.object
+  events: PropTypes.array
 }
 
 export default withStyles(styles)(MultiDaysView)

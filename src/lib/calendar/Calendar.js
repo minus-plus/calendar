@@ -37,6 +37,8 @@ class Calendar extends Component {
       month: normalizeMonth(moment()),
       week: normalizeWeek('2018-08-13T10:30:00.000'),
       selectedDate: normalizeDate('2018-08-13T10:30:00.000'),
+      start: '',
+      end: '',
       mode: 'week',
       showLeftToolBar: true
     }
@@ -139,6 +141,10 @@ class Calendar extends Component {
     })
   }
 
+  onDateMouseUp = (e, range) => {
+    console.log('setting range', range)
+  }
+
   render () {
     const { classes, events = [] } = this.props
     const {
@@ -171,6 +177,7 @@ class Calendar extends Component {
             onClickNext={this.onClickNext}
             onDateChange={this.onDateChange}
             onModeChange={this.onModeChange}
+            onDateMouseUp={this.onDateMouseUp}
           />
           <div className={classes.viewWrapper}>
             <View

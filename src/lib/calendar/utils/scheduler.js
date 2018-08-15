@@ -8,8 +8,38 @@ import { range } from 'lodash'
  * @param unit {string} date unit [ day|week|month|year ]
  * @returns {boolean}
  */
-export function isSame(d1, d2, unit) {
+export function isSame(d1, d2, unit = 'day') {
   return moment(d1).isSame(d2, unit)
+}
+
+export function isBefore(d1, d2, unit = 'day') {
+  return moment(d1).isBefore((d2, unit))
+}
+
+export function isAfter(d1, d2, unit = 'day') {
+  return moment(d1).isAfter(d2, unit)
+}
+
+export function isInRange(start, end, date) {
+  if (!start || !end) {
+    return false
+  }
+  if (isAfter(start, end)) {
+    return isInRange(end, start, date)
+  }
+  const _date = moment(date)
+  return _date.isSameOrAfter(start) && _date.isSameOrBefore(end)
+}
+
+export function isInRangeX(start, end, date) {
+  if (!start || !end) {
+    return false
+  }
+  if (isAfter(start, end)) {
+    return isInRangeX(end, start, date)
+  }
+  const _date = moment(date)
+  return _date.isAfter(start) && _date.isSameOrBefore(end) && _date.day() !== 0
 }
 /**
  *
