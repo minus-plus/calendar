@@ -6,7 +6,9 @@ import moment from 'moment'
 import {
   normalizeMonth,
   normalizeWeek,
-  normalizeDate
+  normalizeDate,
+  startOf,
+  endOf
 } from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
 import Views from './Views'
@@ -37,8 +39,8 @@ class Calendar extends Component {
       month: normalizeMonth(moment()),
       week: normalizeWeek('2018-08-13T10:30:00.000'),
       selectedDate: normalizeDate('2018-08-13T10:30:00.000'),
-      start: '',
-      end: '',
+      rangeStart: '2018-08-16T10:30:00.000',
+      rangeEnd: '2018-08-18T10:30:00.000',
       mode: 'week',
       showLeftToolBar: true
     }
@@ -130,19 +132,20 @@ class Calendar extends Component {
     }
   }
 
-  onDateChange = (e, date) => {
-    if (isSame(this.state.selectedDate, date, 'day')) {
-      return
-    }
+  onDateChange = (date, mode) => {
     this.setState({
       selectedDate: normalizeDate(date),
       week: normalizeWeek(date),
-      month: normalizeMonth(date)
+      month: normalizeMonth(date),
+      mode: mode || this.state.mode
     })
   }
 
-  onDateMouseUp = (e, range) => {
-    console.log('setting range', range)
+
+  onDateRangeChange = option => {
+    this.setState({
+      ...option
+    })
   }
 
   render () {
@@ -152,7 +155,9 @@ class Calendar extends Component {
       week,
       selectedDate,
       mode,
-      showLeftToolBar
+      showLeftToolBar,
+      rangeStart,
+      rangeEnd
     } = this.state
 
     const View = this.getView()
@@ -177,7 +182,7 @@ class Calendar extends Component {
             onClickNext={this.onClickNext}
             onDateChange={this.onDateChange}
             onModeChange={this.onModeChange}
-            onDateMouseUp={this.onDateMouseUp}
+            onDateRangeChange={this.onDateRangeChange}
           />
           <div className={classes.viewWrapper}>
             <View
@@ -186,6 +191,8 @@ class Calendar extends Component {
               selectedDate={selectedDate}
               week={week}
               mode={mode}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
             />
           </div>
         </div>

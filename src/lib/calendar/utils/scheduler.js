@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { range } from 'lodash'
+import {normalizeDate } from './normalizer'
 
 /**
  *
@@ -13,7 +14,7 @@ export function isSame(d1, d2, unit = 'day') {
 }
 
 export function isBefore(d1, d2, unit = 'day') {
-  return moment(d1).isBefore((d2, unit))
+  return moment(d1).isBefore(d2, unit)
 }
 
 export function isAfter(d1, d2, unit = 'day') {
@@ -31,7 +32,7 @@ export function isInRange(start, end, date) {
   return _date.isSameOrAfter(start) && _date.isSameOrBefore(end)
 }
 
-export function isInRangeX(start, end, date) {
+export function isInRangeX (start, end, date) {
   if (!start || !end) {
     return false
   }
@@ -40,6 +41,19 @@ export function isInRangeX(start, end, date) {
   }
   const _date = moment(date)
   return _date.isAfter(start) && _date.isSameOrBefore(end) && _date.day() !== 0
+}
+
+export function getDaysFromRange (start, end) {
+  const days = []
+  if (!start || !end) {
+    return days
+  }
+  const interval = Math.abs(moment(start).diff(end, 'day'))
+
+  for (let i = 0; i <= interval; i++) {
+    days.push(normalizeDate(moment(start).add(i, 'day')))
+  }
+  return days
 }
 /**
  *
@@ -163,7 +177,6 @@ export function filterEventsByRange (events, startDate, endDate) {
     return start.isSameOrBefore(e.end, 'day') &&
       end.isSameOrAfter(e.start, 'day')
   })
-
 }
 
 /**

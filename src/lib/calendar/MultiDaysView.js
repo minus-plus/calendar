@@ -55,13 +55,13 @@ class MultiDaysView extends Component {
     this.state = {}
   }
 
-  shouldComponentUpdate (nextProps) {
-    if (this.props.week === nextProps.week &&
-        this.props.events === nextProps.events) {
-      return false
-    }
-    return true
-  }
+  //shouldComponentUpdate (nextProps) {
+  //  if (this.props.week === nextProps.week &&
+  //      this.props.events === nextProps.events) {
+  //    return false
+  //  }
+  //  return true
+  //}
 
 
   render () {
@@ -69,12 +69,15 @@ class MultiDaysView extends Component {
       classes,
       events,
       week,
+      rangeStart,
+      rangeEnd
       } = this.props
     const filteredEvents = filterEventsByRange(
       events,
-      week,
-      moment(week).add(6, 'day')
+      rangeStart,
+      rangeEnd
     )
+
 
     return (
       <div className={classes.root}>
@@ -82,6 +85,8 @@ class MultiDaysView extends Component {
           <div className={classes.headerWrapper}>
             <WeekViewHeader
               events={filteredEvents}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
               week={week}
             />
           </div>
@@ -89,6 +94,8 @@ class MultiDaysView extends Component {
             <DayViewTimeLabels />
             <MultiDaysViewEvents
               events={filteredEvents}
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
               week={week}
             />
           </div>

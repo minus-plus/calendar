@@ -30,7 +30,8 @@ class LeftToolBar extends Component {
       onDateChange,
       selectedDate,
       onModeChange,
-      onDateMouseUp
+      onDateMouseUp,
+      onDateRangeChange
     } = this.props
     if (!showLeftToolBar) return null
     return (
@@ -43,6 +44,7 @@ class LeftToolBar extends Component {
           onDateChange={onDateChange}
           onModeChange={onModeChange}
           onDateMouseUp={onDateMouseUp}
+          onDateRangeChange={onDateRangeChange}
         />
       </div>
     )

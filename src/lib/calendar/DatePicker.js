@@ -162,7 +162,7 @@ class DatePicker extends Component {
 
   handleDateClick = date => e => {
     if (this.props.onDateChange) {
-      this.props.onDateChange(e, date)
+      this.props.onDateChange(date)
     }
     this.setState({
       rangeStart: '',
@@ -171,8 +171,9 @@ class DatePicker extends Component {
   }
 
   handleDateDoubleClick = date => e => {
+    e.preventDefault()
     if (this.props.onDateChange) {
-      this.props.onDateChange(e, date)
+      this.props.onDateChange(date, 'day')
     }
   }
 
@@ -192,6 +193,9 @@ class DatePicker extends Component {
     let rangeEnd = ''
 
     if (start && down) {
+      if (isSame(date, start)) {
+        return
+      }
       if (isAfter(date, start)) {
         const sameWeek = isSame(date, start, 'week')
         end = normalizeDate(date)
@@ -213,9 +217,13 @@ class DatePicker extends Component {
   }
 
   handleMouseUpEvent = e => {
-    const { start, end } = this.state
-    if (start && end) {
-      console.debug('will set range')
+    const { start, end, rangeStart, rangeEnd } = this.state
+    if (rangeStart && rangeEnd && isSame(rangeEnd, rangeEnd, 'week')) {
+      this.props.onDateRangeChange({
+        rangeStart,
+        rangeEnd,
+        mode: 'week'
+      })
     }
     this.setState({
       down: false
@@ -297,6 +305,7 @@ class DatePicker extends Component {
           disableRipple
           onClick={this.handleDateClick(date)}
           onDoubleClick={this.handleDateDoubleClick(date)}
+          onMouseDown={this.handleMouseDown(date)}
           onMouseEnter={this.handleMouseEnter(date)}
         >
           <Typography
