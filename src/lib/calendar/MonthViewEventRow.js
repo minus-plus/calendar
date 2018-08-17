@@ -26,7 +26,7 @@ const styles = theme => ({
 const MonthViewEvent = ({ event, date }) => {
   const start = moment(event.start)
   const end = moment(event.end)
-  const isAllDayEvent = event.IsAllDayEvent ||
+  const isAllDayEvent = event.isAllDayEvent ||
     !start.isSame(end, 'day')
   return (
     isAllDayEvent
@@ -46,6 +46,7 @@ class MonthViewEventRow extends Component {
    */
   renderEventCell (events, date) {
     const { classes } = this.props
+    const moreEvents = events.length - 3
     return (
       <div
         key={date.format()}
@@ -61,6 +62,7 @@ class MonthViewEventRow extends Component {
             />
           )
         }
+        {moreEvents && `+${moreEvents} more` }
       </div>
     )
   }

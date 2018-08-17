@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Calendar from './lib/calendar'
-import { timeEvents as events } from './data/events'
+import { events as events } from './data/events'
 
 const styles = theme => ({
   view: {

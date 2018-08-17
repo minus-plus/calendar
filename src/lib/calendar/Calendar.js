@@ -56,8 +56,14 @@ class Calendar extends Component {
   }
 
   onModeChange = (e, mode) => {
+    const today = moment()
     this.setState({
-      mode
+      mode,
+      rangeStart: normalizeDate(today),
+      rangeEnd: normalizeDate(today),
+      range: 1,
+      selectedDate: normalizeDate(today),
+      month: normalizeMonth(today),
     })
   }
 

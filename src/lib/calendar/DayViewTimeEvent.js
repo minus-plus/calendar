@@ -46,6 +46,16 @@ class DayViewTimeEvent extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    console.log(nextProps.event === this.props.event)
+    if (nextProps.event === this.props.event &&
+        nextProps.style.left === this.props.style.left &&
+        nextProps.style.width === this.props.style.width) {
+      return false
+    }
+    return true
+  }
+
   handleClickOpen = (e) => {
     this.setState({
       open: true

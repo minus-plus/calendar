@@ -10,6 +10,7 @@ const styles = theme => ({
   header: {
     display: 'flex',
     flex: 1,
+    overflow: 'hidden'
   },
   headerLeftPadding: {
     display: 'flex',
@@ -19,7 +20,7 @@ const styles = theme => ({
     borderStyle: 'solid'
   },
   headerContent: {
-    flex: '1 1 auto',
+    flex: '1 0 auto',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
@@ -58,7 +59,7 @@ const styles = theme => ({
   }
 })
 
-class NewComponent extends Component {
+class DayViewHeader extends Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -102,10 +103,10 @@ class NewComponent extends Component {
   }
 }
 
-NewComponent.propTypes = {
+DayViewHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   selectedDate: PropTypes.string.isRequired,
   paddingLeft: PropTypes.bool
 }
 
-export default withStyles(styles)(NewComponent)
+export default withStyles(styles)(DayViewHeader)

@@ -293,10 +293,10 @@ class DatePicker extends Component {
     } = this.props
     const { rangeStart, rangeEnd, down } = this.state
 
-    const inRangeX = down
+    const inRangeX = rangeStart
       ? isInRangeX(rangeStart, rangeEnd, date)
       : isInRangeX(_rangeStart, _rangeEnd, date)
-    const inRange = down
+    const inRange = rangeStart
       ? isInRange(rangeStart, rangeEnd, date)
       : isInRange(_rangeStart, _rangeEnd, date)
     const disabled = moment(month).month() !== date.month()

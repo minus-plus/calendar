@@ -10,7 +10,8 @@ import { getDaysFromRange } from './utils/scheduler'
 const styles = theme => ({
   root: {
     flex: 1,
-    display: 'flex'
+    display: 'flex',
+    overflow: 'hidden'
   },
   headerLeftPadding: {
     display: 'flex',
