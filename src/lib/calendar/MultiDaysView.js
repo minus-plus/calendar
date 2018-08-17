@@ -71,7 +71,7 @@ class MultiDaysView extends Component {
       week,
       rangeStart,
       rangeEnd
-      } = this.props
+    } = this.props
     const filteredEvents = filterEventsByRange(
       events,
       rangeStart,

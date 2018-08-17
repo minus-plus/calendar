@@ -12,7 +12,7 @@ import {
 } from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
 import Views from './Views'
-import { isSame } from './utils/scheduler'
+import { getDuration } from './utils/scheduler'
 
 const styles = theme => ({
   root: {
@@ -41,6 +41,7 @@ class Calendar extends Component {
       selectedDate: normalizeDate('2018-08-13T10:30:00.000'),
       rangeStart: '2018-08-16T10:30:00.000',
       rangeEnd: '2018-08-18T10:30:00.000',
+      range: 3,
       mode: 'week',
       showLeftToolBar: true
     }
@@ -69,7 +70,7 @@ class Calendar extends Component {
   }
 
   onClickPrevious = (e, mode = 'month') => {
-    const { month, selectedDate } = this.state
+    const { month, selectedDate, rangeStart, rangeEnd, range } = this.state
     switch (mode) {
       case 'day': {
         const newDate = moment(selectedDate).add(-1, 'day')
@@ -81,11 +82,14 @@ class Calendar extends Component {
         break
       }
       case 'week': {
-        const newDate = moment(selectedDate).add(-1, 'week')
+        const newRangeStart = normalizeDate(moment(rangeStart).add(-range, 'day'))
+        const newRangeEnd = normalizeDate(moment(rangeEnd).add(-range, 'day'))
         this.setState({
-          selectedDate: normalizeDate(newDate),
-          week: normalizeWeek(newDate),
-          month: normalizeMonth(newDate)
+          //selectedDate: normalizeDate(newDate),
+          //week: normalizeWeek(newDate),
+          month: normalizeMonth(newRangeEnd),
+          rangeStart: newRangeStart,
+          rangeEnd: newRangeEnd
         })
         break
       }
@@ -101,7 +105,7 @@ class Calendar extends Component {
   }
 
   onClickNext = (e, mode = 'month') => {
-    const { month, selectedDate } = this.state
+    const { month, selectedDate, rangeStart, rangeEnd, range } = this.state
     switch (mode) {
       case 'day': {
         const newDate = moment(selectedDate).add(1, 'day')
@@ -113,11 +117,14 @@ class Calendar extends Component {
         break
       }
       case 'week': {
-        const newDate = moment(selectedDate).add(1, 'week')
+        const newRangeStart = normalizeDate(moment(rangeStart).add(range, 'day'))
+        const newRangeEnd = normalizeDate(moment(rangeEnd).add(range, 'day'))
         this.setState({
-          selectedDate: normalizeDate(newDate),
-          week: normalizeWeek(newDate),
-          month: normalizeMonth(newDate)
+          //selectedDate: normalizeDate(newDate),
+          //week: normalizeWeek(newDate),
+          month: normalizeMonth(newRangeEnd),
+          rangeStart: newRangeStart,
+          rangeEnd: newRangeEnd
         })
         break
       }
@@ -143,8 +150,11 @@ class Calendar extends Component {
 
 
   onDateRangeChange = option => {
+    const { rangeStart, rangeEnd } = option
+    const range = getDuration(rangeStart, rangeEnd)
     this.setState({
-      ...option
+      ...option,
+      range
     })
   }
 
@@ -177,6 +187,8 @@ class Calendar extends Component {
           <LeftToolBar
             showLeftToolBar={showLeftToolBar}
             month={month}
+            rangeStart={rangeStart}
+            rangeEnd={rangeEnd}
             selectedDate={selectedDate}
             onClickPrevious={this.onClickPrevious}
             onClickNext={this.onClickNext}

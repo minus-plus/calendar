@@ -15,7 +15,8 @@ import {
   isBefore,
   isAfter,
   isInRange,
-  isInRangeX
+  isInRangeX,
+  getDuration
 } from './utils/scheduler'
 import {
   normalizeDate,
@@ -217,8 +218,8 @@ class DatePicker extends Component {
   }
 
   handleMouseUpEvent = e => {
-    const { start, end, rangeStart, rangeEnd } = this.state
-    if (rangeStart && rangeEnd && isSame(rangeEnd, rangeEnd, 'week')) {
+    const { down, rangeStart, rangeEnd } = this.state
+    if (down && rangeStart && rangeEnd && isSame(rangeEnd, rangeEnd, 'week')) {
       this.props.onDateRangeChange({
         rangeStart,
         rangeEnd,
@@ -226,7 +227,9 @@ class DatePicker extends Component {
       })
     }
     this.setState({
-      down: false
+      down: false,
+      rangeStart: '',
+      rangeEnd: ''
     })
   }
 
@@ -281,12 +284,23 @@ class DatePicker extends Component {
   }
 
   renderDate = date => {
-    const { classes, month, selectedDate } = this.props
-    const { rangeStart, rangeEnd } = this.state
-    const inRangeX = isInRangeX(rangeStart, rangeEnd, date)
-    const inRange = isInRange(rangeStart, rangeEnd, date)
+    const {
+      classes,
+      month,
+      selectedDate,
+      rangeStart: _rangeStart,
+      rangeEnd: _rangeEnd
+    } = this.props
+    const { rangeStart, rangeEnd, down } = this.state
+
+    const inRangeX = down
+      ? isInRangeX(rangeStart, rangeEnd, date)
+      : isInRangeX(_rangeStart, _rangeEnd, date)
+    const inRange = down
+      ? isInRange(rangeStart, rangeEnd, date)
+      : isInRange(_rangeStart, _rangeEnd, date)
     const disabled = moment(month).month() !== date.month()
-    const selected = isSame(selectedDate, date, 'day') || inRange
+    const selected = inRange
     const isToday = date.isSame(moment(), 'day')
 
     if (isToday) {
@@ -328,10 +342,7 @@ class DatePicker extends Component {
         <IconButton
           className={cn(
             classes.iconButton,
-            {
-              [classes.selected]: selected,
-              [classes.disabled]: disabled
-            }
+            { [classes.selected]: selected, [classes.disabled]: disabled }
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
@@ -339,11 +350,7 @@ class DatePicker extends Component {
           onMouseDown={this.handleMouseDown(date)}
           onMouseEnter={this.handleMouseEnter(date)}
         >
-          <Typography
-            className={cn(
-              classes.date
-            )}
-          >
+          <Typography className={cn(classes.date)}>
             {date.date()}
           </Typography>
         </IconButton>
@@ -358,18 +365,8 @@ class DatePicker extends Component {
     } = this.props
     const weeks = parseMonth(month, 6)
     return weeks.map((week, i) => (
-      <div
-        key={week.week()}
-        className={classes.dateRow}
-      >
-        <div
-          className={
-            cn(
-              classes.dateCell,
-              classes.weekNumber
-            )
-          }
-        >
+      <div key={week.week()} className={classes.dateRow}>
+        <div className={cn(classes.dateCell, classes.weekNumber)}>
           {week.week()}
         </div>
         {range(0, 7).map(i => this.renderDate(moment(week).day(i)))}

@@ -2,6 +2,10 @@ import moment from 'moment'
 import { range } from 'lodash'
 import {normalizeDate } from './normalizer'
 
+
+export function getDuration(start, end, unit = 'day') {
+  return Math.abs(moment(start).diff(end, 'day')) + 1
+}
 /**
  *
  * @param d1 {object} moment object
@@ -21,15 +25,15 @@ export function isAfter(d1, d2, unit = 'day') {
   return moment(d1).isAfter(d2, unit)
 }
 
-export function isInRange(start, end, date) {
+export function isInRange(start, end, date, unit = 'day') {
   if (!start || !end) {
     return false
   }
-  if (isAfter(start, end)) {
+  if (isAfter(start, end, unit)) {
     return isInRange(end, start, date)
   }
   const _date = moment(date)
-  return _date.isSameOrAfter(start) && _date.isSameOrBefore(end)
+  return _date.isSameOrAfter(start, unit) && _date.isSameOrBefore(end, unit)
 }
 
 export function isInRangeX (start, end, date) {

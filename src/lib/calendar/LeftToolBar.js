@@ -25,6 +25,8 @@ class LeftToolBar extends Component {
       classes,
       showLeftToolBar,
       month,
+      rangeStart,
+      rangeEnd,
       onClickPrevious,
       onClickNext,
       onDateChange,
@@ -34,10 +36,13 @@ class LeftToolBar extends Component {
       onDateRangeChange
     } = this.props
     if (!showLeftToolBar) return null
+
     return (
       <div className={classes.root}>
         <DatePicker
           month={month}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
           selectedDate={selectedDate}
           onClickPrevious={onClickPrevious}
           onClickNext={onClickNext}
