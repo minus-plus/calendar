@@ -172,8 +172,9 @@ class DatePicker extends Component {
   }
 
   handleDateDoubleClick = date => e => {
+    const { mode } = this.props
     e.preventDefault()
-    if (this.props.onDateChange) {
+    if (mode !== 'day' && mode !== 'week' && this.props.onDateChange) {
       this.props.onDateChange(date, 'day')
     }
   }
@@ -292,13 +293,13 @@ class DatePicker extends Component {
       rangeStart: _rangeStart,
       rangeEnd: _rangeEnd
     } = this.props
-    const { rangeStart, rangeEnd } = this.state
-    const inRangeX = mode === 'week' && (rangeStart
+    const { rangeStart, rangeEnd, down } = this.state
+    const inRangeX = down
       ? isInRangeX(rangeStart, rangeEnd, date)
-      : isInRangeX(_rangeStart, _rangeEnd, date))
-    const inRange = mode === 'week' && (rangeStart
+      : isInRangeX(_rangeStart, _rangeEnd, date) && mode !== 'day'
+    const inRange = down
       ? isInRange(rangeStart, rangeEnd, date)
-      : isInRange(_rangeStart, _rangeEnd, date))
+      : isInRange(_rangeStart, _rangeEnd, date) && mode !== 'day'
     const disabled = moment(month).month() !== date.month()
     const selected = date.isSame(selectedDate, 'day') || inRange
     const isToday = date.isSame(moment(), 'day')
@@ -318,7 +319,7 @@ class DatePicker extends Component {
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
-          //onDoubleClick={this.handleDateDoubleClick(date)}
+          onDoubleClick={this.handleDateDoubleClick(date)}
           onMouseDown={this.handleMouseDown(date)}
           onMouseEnter={this.handleMouseEnter(date)}
         >

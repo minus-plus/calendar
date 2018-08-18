@@ -146,7 +146,7 @@ class Calendar extends Component {
     }
   }
 
-  onDateChange = (date) => {
+  onDateChange = (date, _mode) => {
     // toggle multi days mode and
     const {
       range,
@@ -188,7 +188,8 @@ class Calendar extends Component {
         month: normalizeMonth(date),
         rangeStart: '',
         rangeEnd: '',
-        range: ''
+        range: '',
+        mode: _mode || this.state.mode
       })
     }
   }
