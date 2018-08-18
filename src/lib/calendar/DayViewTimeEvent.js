@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 import colors from './utils/colors'
+import eventColors from './utils/event-colors'
 
 
 const styles = theme => ({
@@ -38,6 +39,23 @@ const styles = theme => ({
   }
 })
 
+const getColor =  (type) => {
+  switch (type) {
+    case 'type_0':
+      return eventColors.blue[800]
+      break
+    case 'type_1':
+      return eventColors.orange[800]
+      break
+    case 'type_2':
+      return eventColors.green[800]
+      break
+    default:
+      return eventColors.orange[800]
+  }
+}
+
+
 class DayViewTimeEvent extends Component {
   constructor (props) {
     super(props)
@@ -47,7 +65,7 @@ class DayViewTimeEvent extends Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    if (nextProps.event === this.props.event &&
+    if(nextProps.event === this.props.event &&
         nextProps.style.left === this.props.style.left &&
         nextProps.style.width === this.props.style.width) {
       return false
@@ -67,8 +85,7 @@ class DayViewTimeEvent extends Component {
 
   render () {
     const { classes, event, style, cIndex } = this.props
-    const index = Math.floor(Math.random() * (colors.length))
-    const color = colors[index]
+    const color = getColor(event.type)
     return (
       <div>
         <div

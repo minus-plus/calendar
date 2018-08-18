@@ -6,7 +6,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-import blueGrey from '@material-ui/core/colors/blueGrey'
+import blueGrey from '@material-ui/core/colors/deepOrange'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 
 const theme = createMuiTheme({

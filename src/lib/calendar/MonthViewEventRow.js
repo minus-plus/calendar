@@ -20,6 +20,13 @@ const styles = theme => ({
   eventCellWrapper: {
     flex: '1 1 0%',
     borderRight: '1px solid transparent'
+  },
+  moreEvents: {
+    position: 'absolute',
+    height: 24,
+    lineHeight: '24px',
+    fontSize: 12,
+    padding: '0 12px'
   }
 })
 
@@ -69,7 +76,6 @@ class MonthViewEventRow extends Component {
   renderEventCell (events, date) {
     const { classes } = this.props
     const { height } = this.state
-    const moreEvents = Math.max(0, events.length - 3)
     let eventsToShow
     let numCollapsedEvents
     const numSlots = Math.floor(height / 24)
@@ -93,7 +99,12 @@ class MonthViewEventRow extends Component {
               date={normalizeDate(date)}
             />
           )}
-        {!!moreEvents && `+${moreEvents} more` }
+        {!!numCollapsedEvents
+          ? <div className={classes.moreEvents} style={{top: eventsToShow.length * 24}}>
+             +{numCollapsedEvents} more
+           </div>
+          : null
+        }
       </div>
     )
   }
