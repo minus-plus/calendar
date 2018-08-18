@@ -15,7 +15,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     overflow: 'hidden',
-    height: '100%'
+    height: 'calc(100% - 28px)'
   },
   eventCellWrapper: {
     flex: '1 1 0%',
@@ -30,14 +30,36 @@ const MonthViewEvent = ({ event, date }) => {
     !start.isSame(end, 'day')
   return (
     isAllDayEvent
-      ? <MonthViewAllDayEvent event={event} date={date}/>
-      : <MonthViewTimeEvent event={event} date={date}/>
+      ? <MonthViewAllDayEvent event={event} date={date} />
+      : <MonthViewTimeEvent event={event} date={date} />
   )
 }
 
 class MonthViewEventRow extends Component {
   constructor (props) {
     super(props)
+    this.node = null
+    this.state = {
+      height: 0
+    }
+  }
+
+  updateHeight = (e) => {
+    e.preventDefault()
+    this.setState({
+      height: this.node && this.node.clientHeight
+    })
+  }
+
+  componentDidMount () {
+    const height = this.node && this.node.clientHeight
+    this.setState({ height })
+    window.addEventListener('resize', this.updateHeight)
+  }
+
+  componentWillUnmount () {
+
+    window.removeEventListener('resize', this.updateHeight)
   }
 
   /**
@@ -46,23 +68,32 @@ class MonthViewEventRow extends Component {
    */
   renderEventCell (events, date) {
     const { classes } = this.props
-    const moreEvents = events.length - 3
+    const { height } = this.state
+    const moreEvents = Math.max(0, events.length - 3)
+    let eventsToShow
+    let numCollapsedEvents
+    const numSlots = Math.floor(height / 24)
+    if (events.length > numSlots) {
+      eventsToShow = events.slice(0, numSlots - 1)
+      numCollapsedEvents = events.length - numSlots
+    } else {
+      eventsToShow = events
+    }
+
     return (
       <div
         key={date.format()}
         className={classes.eventCellWrapper}
       >
-        {
-          events.slice(0, 3)
+        {eventsToShow
           .map((event, i) =>
             <MonthViewEvent
               key={i}
               event={event}
               date={normalizeDate(date)}
             />
-          )
-        }
-        {moreEvents && `+${moreEvents} more` }
+          )}
+        {!!moreEvents && `+${moreEvents} more` }
       </div>
     )
   }
@@ -80,7 +111,7 @@ class MonthViewEventRow extends Component {
     return (
       <div
         className={classes.eventRowWrapper}
-        style={{ height: '100%' }}
+        ref={ele => this.node = ele}
       >
         {
           dates

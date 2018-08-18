@@ -288,19 +288,19 @@ class DatePicker extends Component {
       classes,
       month,
       selectedDate,
+      mode,
       rangeStart: _rangeStart,
       rangeEnd: _rangeEnd
     } = this.props
-    const { rangeStart, rangeEnd, down } = this.state
-
-    const inRangeX = rangeStart
+    const { rangeStart, rangeEnd } = this.state
+    const inRangeX = mode === 'week' && (rangeStart
       ? isInRangeX(rangeStart, rangeEnd, date)
-      : isInRangeX(_rangeStart, _rangeEnd, date)
-    const inRange = rangeStart
+      : isInRangeX(_rangeStart, _rangeEnd, date))
+    const inRange = mode === 'week' && (rangeStart
       ? isInRange(rangeStart, rangeEnd, date)
-      : isInRange(_rangeStart, _rangeEnd, date)
+      : isInRange(_rangeStart, _rangeEnd, date))
     const disabled = moment(month).month() !== date.month()
-    const selected = inRange
+    const selected = date.isSame(selectedDate, 'day') || inRange
     const isToday = date.isSame(moment(), 'day')
 
     if (isToday) {
@@ -318,7 +318,7 @@ class DatePicker extends Component {
           )}
           disableRipple
           onClick={this.handleDateClick(date)}
-          onDoubleClick={this.handleDateDoubleClick(date)}
+          //onDoubleClick={this.handleDateDoubleClick(date)}
           onMouseDown={this.handleMouseDown(date)}
           onMouseEnter={this.handleMouseEnter(date)}
         >
@@ -394,7 +394,8 @@ class DatePicker extends Component {
 
 DatePicker.propTypes = {
   classes: PropTypes.object.isRequired,
-  month: PropTypes.string.isRequired
+  month: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(DatePicker)

@@ -5,7 +5,12 @@ import { normalizeDate } from './utils/normalizer'
 import moment from 'moment'
 import { range } from 'lodash'
 import DayViewHeader from './DayViewHeader'
-import { getDaysFromRange } from './utils/scheduler'
+import {
+  getDaysFromRange,
+  filterEvents,
+  isAllDayEvent
+} from './utils/scheduler'
+
 
 const styles = theme => ({
   root: {
@@ -29,8 +34,7 @@ class MultiDaysViewHeader extends Component {
   }
 
   render () {
-    const { classes, week, events, rangeStart, rangeEnd } = this.props
-    //const weekDays = range(7).map(i => normalizeDate(moment(week).add(i, 'day')))
+    const { classes, events, rangeStart, rangeEnd } = this.props
     const weekDays = getDaysFromRange(rangeStart, rangeEnd)
     return (
       <div className={classes.root}>
@@ -41,7 +45,7 @@ class MultiDaysViewHeader extends Component {
             <DayViewHeader
               key={date}
               selectedDate={date}
-              events={events}
+              events={filterEvents(events, date, 'day')}
             />
           )
         }

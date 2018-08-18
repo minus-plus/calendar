@@ -25,6 +25,7 @@ class LeftToolBar extends Component {
       classes,
       showLeftToolBar,
       month,
+      mode,
       rangeStart,
       rangeEnd,
       onClickPrevious,
@@ -40,6 +41,7 @@ class LeftToolBar extends Component {
     return (
       <div className={classes.root}>
         <DatePicker
+          mode={mode}
           month={month}
           rangeStart={rangeStart}
           rangeEnd={rangeEnd}
@@ -59,7 +61,8 @@ class LeftToolBar extends Component {
 LeftToolBar.propTypes = {
   classes: PropTypes.object.isRequired,
   showLeftToolBar: PropTypes.bool.isRequired,
-  month: PropTypes.string.isRequired
+  month: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(LeftToolBar)

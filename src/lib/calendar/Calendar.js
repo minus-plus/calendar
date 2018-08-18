@@ -12,7 +12,7 @@ import {
 } from './utils/normalizer'
 import LeftToolBar from './LeftToolBar'
 import Views from './Views'
-import { getDuration } from './utils/scheduler'
+import { getDuration, isSame } from './utils/scheduler'
 
 const styles = theme => ({
   root: {
@@ -39,12 +39,13 @@ class Calendar extends Component {
       month: normalizeMonth(moment()),
       week: normalizeWeek('2018-08-13T10:30:00.000'),
       selectedDate: normalizeDate('2018-08-13T10:30:00.000'),
-      rangeStart: '2018-08-16T10:30:00.000',
-      rangeEnd: '2018-08-18T10:30:00.000',
+      rangeStart: '',
+      rangeEnd: '',
       range: 3,
-      mode: 'week',
+      mode: 'month',
       showLeftToolBar: true
     }
+    window.getState = () => this.state // for dev
   }
 
   getView = () => Views[this.state.mode]
@@ -145,13 +146,51 @@ class Calendar extends Component {
     }
   }
 
-  onDateChange = (date, mode) => {
-    this.setState({
-      selectedDate: normalizeDate(date),
-      week: normalizeWeek(date),
-      month: normalizeMonth(date),
-      mode: mode || this.state.mode
-    })
+  onDateChange = (date) => {
+    // toggle multi days mode and
+    const {
+      range,
+      mode
+    } = this.state
+
+    if (mode === 'week') {
+      if (isSame(date, this.state.rangeStart, 'day')) {
+        this.setState({
+          mode: 'day',
+        })
+      } else {
+        this.setState({
+          selectedDate: normalizeDate(date),
+          rangeStart: normalizeDate(date),
+          rangeEnd: normalizeDate(moment(date).add(Math.max(0, range - 1), 'day'))
+        })
+      }
+    } else if (mode === 'day') {
+      if (isSame(date, this.state.rangeStart, 'day')) {
+        this.setState({
+          mode: 'week',
+        })
+      } else {
+        this.setState({
+          selectedDate: normalizeDate(date),
+          week: normalizeWeek(date),
+          month: normalizeMonth(date),
+          rangeStart: '',
+          rangeEnd: '',
+          range: ''
+        })
+      }
+    } else {
+      // month view
+      this.setState({
+        selectedDate: normalizeDate(date),
+        week: normalizeWeek(date),
+        month: normalizeMonth(date),
+        rangeStart: '',
+        rangeEnd: '',
+        range: ''
+      })
+    }
   }
 
 
@@ -160,7 +199,10 @@ class Calendar extends Component {
     const range = getDuration(rangeStart, rangeEnd)
     this.setState({
       ...option,
-      range
+      range,
+      selectedDate: normalizeDate(rangeStart),
+      week: normalizeWeek(rangeStart),
+      month: normalizeMonth(rangeStart)
     })
   }
 
@@ -193,6 +235,7 @@ class Calendar extends Component {
           <LeftToolBar
             showLeftToolBar={showLeftToolBar}
             month={month}
+            mode={mode}
             rangeStart={rangeStart}
             rangeEnd={rangeEnd}
             selectedDate={selectedDate}

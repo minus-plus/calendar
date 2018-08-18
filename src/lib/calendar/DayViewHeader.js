@@ -24,7 +24,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    position: 'relative'
+    position: 'relative',
+    borderWidth: '0 0 0 1px',
+    borderColor: theme.palette.grey[300],
+    borderStyle: 'solid'
   },
   headerDateWrapper: {
     display: 'flex',
@@ -38,9 +41,6 @@ const styles = theme => ({
     flex: '1 1 auto',
     overflow: 'hidden',
     flexDirection: 'column',
-    borderWidth: '0 0 0 1px',
-    borderColor: theme.palette.grey[300],
-    borderStyle: 'solid'
   },
   marginLeft12: {
     marginLeft: 12

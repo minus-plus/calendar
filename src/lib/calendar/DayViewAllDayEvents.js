@@ -9,9 +9,9 @@ import DayViewAllDayEvent from './DayViewAllDayEvent'
 const styles = theme => ({
   headerEvent: {
     maxHeight: 96,
-    borderWidth: '0 0 0 1px',
-    borderColor: theme.palette.grey[300],
-    borderStyle: 'solid'
+    //borderWidth: '0 0 0 1px',
+    //borderColor: theme.palette.grey[300],
+    //borderStyle: 'solid'
   },
   event: {
     height: theme.spacing.unit * 3 - 2,

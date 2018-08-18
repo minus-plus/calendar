@@ -78,7 +78,6 @@ class MultiDaysView extends Component {
       rangeEnd
     )
 
-
     return (
       <div className={classes.root}>
         <div className={classes.container}>

@@ -77,8 +77,8 @@ export function getDaysOfWeek (week) {
 const compareEventsByDay = (a, b) => {
   const aStart = moment(a.start)
   const bStart = moment(b.start)
-  const aDuration = Math.abs(aStart.diff(a.end, 'days'))
-  const bDuration = Math.abs(bStart.diff(b.end, 'days'))
+  const aDuration = Math.abs(aStart.diff(a.end, 'seconds'))
+  const bDuration = Math.abs(bStart.diff(b.end, 'seconds'))
 
   if (aStart.isBefore(bStart, 'day')) {
     return -1
